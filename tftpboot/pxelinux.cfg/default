@@ -1,0 +1,11 @@
+DEFAULT rancher
+  SAY Booting PXE Boot MENU with Rancher...
+
+LABEL rancher
+  MENU LABEL Rancher recent
+  KERNEL /rancher/vmlinuz
+  APPEND initrd=/rancher/initrd rancher.cloud_init.datasources=[url:http://10.42.0.1:8888/cloud-config.yaml]
+
+PROMPT 1
+TIMEOUT 5
+UI menu.c32

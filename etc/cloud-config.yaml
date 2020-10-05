@@ -1,0 +1,35 @@
+#cloud-config
+runcmd:
+  - >
+    mac=$(cat /sys/class/net/eth0/address)
+    hostn=$(
+      case $mac in
+        b4:b5:2f:32:73:08) echo "hp-elitebook-8570p" ;;
+        *) echo "unknownhost" ;;
+    esac;) &&
+    echo $hostn > /etc/hostname && hostname $hostn && ros config set hostname
+    
+ssh_authorized_keys:
+  - ssh-rsa AAAA{==INSERT==YOUR=SSH==KEY==HERE==}
+rancher:
+  network:
+    interfaces:
+      eth0:
+        dhcp: true
+  docker:
+    storage_driver: overlay2
+
+write_files:
+  - path: /etc/rc.local
+    permissions: "0755"
+    owner: root
+    content: |
+      #!/bin/bash
+      wait-for-docker
+      docker swarm join --token SWMTKN-1-{==INSERT==YOUR==SWARM==TOKEN==HERE} 10.42.0.1:2377
+  - container: acpid
+    path: /etc/acpi/suspend.sh
+    permissions: "0644"
+    owner: root
+    content: |
+      exit 0
