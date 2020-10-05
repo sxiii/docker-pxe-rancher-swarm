@@ -7,7 +7,7 @@ And finally, you want the booted host to get the config you need and join Docker
 
 How to have all this... In one?
 
-Meet DPRS: An Ultimate auto-clustering solution!
+Meet DPRS: An Ultimate auto-clustering solution! (Also well known as "DevOps dream machine")
 
 ## What it does? Or what it can? What is the boot order? Help, I'm puzzled!
 1. You take the docker container, configure it, and build it. With docker build. Docker container will have everything inside of it!
