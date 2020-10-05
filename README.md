@@ -31,8 +31,12 @@ There might be more or less configuration that you need to do depending on your 
 1. Download this repo to your PC: `git clone https://github.com/sxiii/docker-pxe-rancher-swarm/`
 2. Enter the folder: `cd docker-pxe-rancher-swarm`
 3. Edit the main configuration file, which is `etc/cloud-config.yaml`. At least you should add SWARM token if you want to use Docker Swarm. You can also add your SSH key if you plan to manage some of the nodes manually, and, finally, the "MAC address to Hostname" resolution is also configured in here.
-4. Build the container: `docker build -t . pxe` - you might need sudo here. Also, the build should finish successfully without any errors.
-4. 
+4. Either change your host IP to 10.42.0.1 (at least on the interface that you want PXE to work), OR check the "File structure" section on several places that you need to edit to change the IP range for PXE & DHCP to work.
+5. Build the container: `docker build -t . dprs` - you might need sudo here. Also, the build should finish successfully without any errors.
+6. Run the container: `docker run -it --rm --net=host --cap-add=NET_ADMIN dprs:latest` - you might need sudo in here, too. --net=host and --cap-add required because we're fiddling with DHCP and PXE.
+7. Insert ethernet from your host to the machine you want to PXE boot or to a network switch(es), if you hasn't done that already, and then boot (or reboot) the machines. If the nodes don't have PXE boot enabled in BIOS, you'll need to go there and enable PXE boot.
+8. That's it! Wait for 1 or 2 minutes, then issue `docker node ls` command to see, if the nodes had booted up rancher and joined your swarm. You can also SSH to them, if you've added your SSH key or static password in the `cloud-config.yaml` file.
+9. Report success and support my work in the issues and/or by donating towards improvement of this and other projects on: https://sxiii.ru/donate
 
 ## File structure (aka "files to probably touch")
 * `Dockerfile` - you need it to build a run the whole project (you can leave this file as-is if you're happy with defaults)
@@ -63,4 +67,10 @@ A: This command is run upon the hosts provisioning. Basically it just takes your
 A: This command creates files in the filesystem of provisioned hosts. My source creates two files: one (/etc/rc.local) to actually join the Docker Swarm after system boots and starts Docker. The other, `/etc/acpi/suspend.sh` file in the `acpid` is important for the laptops: with this file, laptops WILL NOT SUSPEND UPON THE LID CLOSING. If you want them to suspend, remove lines from `  - container: acpid` all the way down to `exit 0` lines.
 
 ## Q: How can I manually edit "Parameter X" of Rancher OS?
-Please check out RancherOS official documentation page here: https://rancher.com/docs/os/v1.x/en/
+A: Please check out RancherOS official documentation page here: https://rancher.com/docs/os/v1.x/en/
+
+## Q: I have another question or problem, something don't work, how can I contact you?
+A: The best way is thought github's issues. Create an issue, describe your problem and then wait for me or someone else to answer. You can find my contact details as well in github and on my website https://sxiii.ru
+
+## Q: I have a feature request or I already improved something, what can I do?
+A: For feature request, please open an issue, and describe what do you want. For improving, please do a pull-request right away, and explain your improvement in the comment. I will review it and accept, as soon as possible. You can contact me as well through my website https://sxiii.ru
