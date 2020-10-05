@@ -13,9 +13,9 @@ Meet DPRS: An Ultimate auto-clustering solution!
 1. You take the docker container, configure it, and build it. With docker build. Docker container will have everything inside of it!
 2. You run the docker container.
 3. The running container includes everything you need to build a cluster: 
-3.1 DHCP & PXE server (based on Alpine linux): to boot all your devices via network
-3.2 Python-based small HTTP server that hosts RancherOS kernel (vmlinuz) and RancherOS initrd images right from same container (Rancher can be replaced with any Linux you want by switching this files)
-3.3 Cloud-config file for RancherOS to boot, with static hostname configuration based on MAC addresses (so your nodes will have the same hostname every time)
+* 3.1 DHCP & PXE server (based on Alpine linux): to boot all your devices via network
+* 3.2 Python-based small HTTP server that hosts RancherOS kernel (vmlinuz) and RancherOS initrd images right from same container (Rancher can be replaced with any Linux you want by switching this files)
+* 3.3 Cloud-config file for RancherOS to boot, with static hostname configuration based on MAC addresses (so your nodes will have the same hostname every time)
 4. It's portable: best of all, all of these steps are achieved in a single docker container! Not huring your current setup, anything! You can tune it down simply by a single Ctrl+C.
 5. You start-up any amount of the machines with PXE Boot, and, violia! They all boot into Rancher with your configuration and joins your super-cool Swarm.
 
