@@ -74,3 +74,6 @@ A: The best way is thought github's issues. Create an issue, describe your probl
 
 ## Q: I have a feature request or I already improved something, what can I do?
 A: For feature request, please open an issue, and describe what do you want. For improving, please do a pull-request right away, and explain your improvement in the comment. I will review it and accept, as soon as possible. You can contact me as well through my website https://sxiii.ru
+
+## Q: My Docker Swarm is overflown with old & dead hosts! How do I remove them all at once?
+A: Issue this command: `sudo docker node rm $(sudo docker node ls | grep Down | awk -F" " '{ print $1 }')`. This will remove all "Down" nodes from your swarm.
