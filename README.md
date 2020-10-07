@@ -32,7 +32,7 @@ There might be more or less configuration that you need to do depending on your 
 2. Enter the folder: `cd docker-pxe-rancher-swarm`
 3. Edit the main configuration file, which is `etc/cloud-config.yaml`. At least you should add SWARM token if you want to use Docker Swarm. You can also add your SSH key if you plan to manage some of the nodes manually, and, finally, the "MAC address to Hostname" resolution is also configured in here.
 4. Either change your host IP to 10.42.0.1 (at least on the interface that you want PXE to work), OR check the "File structure" section on several places that you need to edit to change the IP range for PXE & DHCP to work.
-5. Build the container: `docker build -t . dprs` - you might need sudo here. Also, the build should finish successfully without any errors.
+5. Build the container: `docker build -t dprs .` - you might need sudo here. Also, the build should finish successfully without any errors.
 6. Run the container: `docker run -it --rm --net=host --cap-add=NET_ADMIN dprs:latest` - you might need sudo in here, too. --net=host and --cap-add required because we're fiddling with DHCP and PXE.
 7. Insert ethernet from your host to the machine you want to PXE boot or to a network switch(es), if you hasn't done that already, and then boot (or reboot) the machines. If the nodes don't have PXE boot enabled in BIOS, you'll need to go there and enable PXE boot.
 8. That's it! Wait for 1 or 2 minutes, then issue `docker node ls` command to see, if the nodes had booted up rancher and joined your swarm. You can also SSH to them, if you've added your SSH key or static password in the `cloud-config.yaml` file.
